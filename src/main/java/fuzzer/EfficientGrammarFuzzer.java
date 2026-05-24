@@ -16,7 +16,7 @@ public class EfficientGrammarFuzzer extends BasicGrammarBasedFuzzer {
     private int expansionsCount;
     protected int maxNumOfExpansions = Integer.MAX_VALUE;
 
-    private Function<DerivationTree, DerivationTree> expansionStrategyg;
+    private Function<DerivationTree, DerivationTree> expansionStrategy;
 
     public EfficientGrammarFuzzer(JSONObject grammar, int seed) {
         super(grammar, seed);
