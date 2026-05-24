@@ -12,24 +12,25 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BasicFuzzer extends GrammarBasedFuzzer {
+public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
 
-  private static final int max_nonterminals = 6;
-  private static final int max_expansion_trials = 100;
+  private static final int MAX_NONTERMINALS = 6;
+  private static final int MAX_EXPANSION_TRIALS = 100;
   protected final String INITIAL_SYMBOL = "<S>";
-  private static final String re_nonterminal = "(<[^<> ]*>)";
+  private static final String RE_NONTERMINAL = "(<[^<> ]*>)";
 
   protected Random rand;
 
-  public BasicFuzzer(String grammar_file_name) {
+  public BasicGrammarBasedFuzzer(String grammar_file_name) {
     try {
       grammar = read_grammar(grammar_file_name);
+      rand = new Random();
     } catch (Exception e) {
       throw new IllegalArgumentException("Unable to read grammar: " + grammar_file_name);
     }
   }
 
-  public BasicFuzzer(JSONObject grammar, int seed) {
+  public BasicGrammarBasedFuzzer(JSONObject grammar, int seed) {
     rand = new Random(seed);
     JSONParser parser = new JSONParser();
     try {
@@ -52,12 +53,12 @@ public class BasicFuzzer extends GrammarBasedFuzzer {
       String expansion = (String) expansions.get(rand.nextInt(expansions.size()));
       String new_term = term.replaceFirst(symbol_to_expand, expansion);
       non_terminals = nonterminals(new_term);
-      if (non_terminals.size() < max_nonterminals) {
+      if (non_terminals.size() < MAX_NONTERMINALS) {
         term = new_term;
         expansion_trials = 0;
       } else {
         expansion_trials += 1;
-        if (expansion_trials >= max_expansion_trials)
+        if (expansion_trials >= MAX_EXPANSION_TRIALS)
           throw new IllegalStateException("Can't expand " + term);
       }
     }
@@ -78,18 +79,11 @@ public class BasicFuzzer extends GrammarBasedFuzzer {
   }
 
   /**
-   * Empty the grammar (just for testing purposes)
-   */
-  public void empty_grammar() {
-    grammar = null;
-  }
-
-  /**
    * Get the amount of non terminals symbols of the given symbol
    */
   protected List<String> nonterminals(String symbol) {
     List<String> matches = new LinkedList<String>();
-    Matcher m = Pattern.compile("(?=(" + re_nonterminal + "))").matcher(symbol);
+    Matcher m = Pattern.compile("(?=(" + RE_NONTERMINAL + "))").matcher(symbol);
     while (m.find()) {
       matches.add(m.group(1));
     }
@@ -120,7 +114,8 @@ public class BasicFuzzer extends GrammarBasedFuzzer {
       throw new IllegalArgumentException("Only the fully grammar file name is expected");
     }
     String grammar_file = args[0];
-    BasicFuzzer bf = new BasicFuzzer(grammar_file);
+    BasicGrammarBasedFuzzer bf = new BasicGrammarBasedFuzzer(grammar_file);
     System.out.println(bf.fuzz());
   }
+
 }

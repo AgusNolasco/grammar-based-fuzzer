@@ -10,7 +10,7 @@ public class SimpleGrammarCoverageFuzzer extends TrackingGrammarCoverageFuzzer {
 
     public SimpleGrammarCoverageFuzzer(JSONObject grammar, int max_count_of_expansions, int seed) {
         super(grammar, seed);
-        this.max_count_of_expansions = max_count_of_expansions;
+        this.maxNumOfExpansions = max_count_of_expansions;
     }
 
     @Override

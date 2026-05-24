@@ -10,13 +10,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class EfficientGrammarFuzzer extends BasicFuzzer {
+public class EfficientGrammarFuzzer extends BasicGrammarBasedFuzzer {
 
     private static final String re_nonterminal = "(<[^<> ]*>)";
-    private int expansions_count;
-    protected int max_count_of_expansions = Integer.MAX_VALUE;
+    private int expansionsCount;
+    protected int maxNumOfExpansions = Integer.MAX_VALUE;
 
-    private Function<DerivationTree, DerivationTree> expand_node_strategy;
+    private Function<DerivationTree, DerivationTree> expansionStrategy;
 
     public EfficientGrammarFuzzer(JSONObject grammar, int seed) {
         super(grammar, seed);
@@ -25,7 +25,7 @@ public class EfficientGrammarFuzzer extends BasicFuzzer {
     @Override
     public String fuzz() {
         DerivationTree tree = init_tree();
-        expansions_count = 0;
+        expansionsCount = 0;
         tree = expand_tree(tree);
         return tree.toString();
     }
@@ -35,10 +35,10 @@ public class EfficientGrammarFuzzer extends BasicFuzzer {
     }
 
     private DerivationTree expand_tree(DerivationTree tree) {
-        expand_node_strategy = this::expand_node_randomly;
+        expansionStrategy = this::expand_node_randomly;
         while (any_possible_expansion(tree)) {
-            if (expansions_count > max_count_of_expansions) {
-                expand_node_strategy = this::expand_node_min_cost;
+            if (expansionsCount > maxNumOfExpansions) {
+                expansionStrategy = this::expand_node_min_cost;
             }
             tree = expand_tree_once(tree);
         }
@@ -68,8 +68,8 @@ public class EfficientGrammarFuzzer extends BasicFuzzer {
     }
 
     public DerivationTree expand_node(DerivationTree node) {
-        expansions_count++;
-        return expand_node_strategy.apply(node);
+        expansionsCount++;
+        return expansionStrategy.apply(node);
     }
 
     public DerivationTree expand_node_min_cost(DerivationTree node) {
