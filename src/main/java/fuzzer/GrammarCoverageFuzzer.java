@@ -12,19 +12,19 @@ public class GrammarCoverageFuzzer extends SimpleGrammarCoverageFuzzer {
     public int chooseNodeExpansion(DerivationTree node, List<List<DerivationTree>> childrenAlternatives) {
         String symbol = node.getSymbolName();
 
-        List<Set<String>> new_coverages = new_coverages(node, childrenAlternatives);
+        List<Set<String>> newCoverages = newCoverages(node, childrenAlternatives);
 
-        if (new_coverages == null) {
+        if (newCoverages == null) {
             return super.chooseNodeExpansion(node, childrenAlternatives);
         }
 
-        int max_new_coverage = new_coverages.stream().map(Set::size).max(Comparator.comparingInt(i -> i)).get();
+        int maxNewCoverage = newCoverages.stream().map(Set::size).max(Comparator.comparingInt(i -> i)).get();
 
-        List<List<DerivationTree>> children_with_max_new_coverage = new ArrayList<>();
+        List<List<DerivationTree>> childrenWithMaxNewCoverage = new ArrayList<>();
         int idx = 0;
         for (List<DerivationTree> c : childrenAlternatives) {
-            if (new_coverages.get(idx).size() == max_new_coverage) {
-                children_with_max_new_coverage.add(c);
+            if (newCoverages.get(idx).size() == maxNewCoverage) {
+                childrenWithMaxNewCoverage.add(c);
             }
             idx++;
         }
@@ -32,51 +32,51 @@ public class GrammarCoverageFuzzer extends SimpleGrammarCoverageFuzzer {
         List<Integer> indexMap = new ArrayList<>();
         int i = 0;
         for (List<DerivationTree> c : childrenAlternatives) {
-            if (new_coverages.get(i).size() == max_new_coverage) {
+            if (newCoverages.get(i).size() == maxNewCoverage) {
                 indexMap.add(i);
             }
             i++;
         }
 
-        int new_children_index = super.chooseNodeExpansion(node, children_with_max_new_coverage);
-        List<DerivationTree> new_children = children_with_max_new_coverage.get(new_children_index);
-        String key = expansion_key(symbol, new_children);
+        int newChildrenIndex = super.chooseNodeExpansion(node, childrenWithMaxNewCoverage);
+        List<DerivationTree> newChildren = childrenWithMaxNewCoverage.get(newChildrenIndex);
+        String key = expansionKey(symbol, newChildren);
         coveredExpansions.add(key);
-        return indexMap.get(new_children_index);
+        return indexMap.get(newChildrenIndex);
     }
 
-    private List<Set<String>> new_coverages(DerivationTree node, List<List<DerivationTree>> children_alternatives) {
+    private List<Set<String>> newCoverages(DerivationTree node, List<List<DerivationTree>> childrenAlternatives) {
         String symbol = node.getSymbolName();
-        for (int max_depth = 0; max_depth < grammar.size(); max_depth++) {
-            List<Set<String>> new_coverages = new ArrayList<>();
-            for (List<DerivationTree> c : children_alternatives) {
-                new_coverages.add(new_child_coverage(symbol, c, (double) max_depth));
+        for (int maxDepth = 0; maxDepth < grammar.size(); maxDepth++) {
+            List<Set<String>> newCoverages = new ArrayList<>();
+            for (List<DerivationTree> c : childrenAlternatives) {
+                newCoverages.add(newChildCoverage(symbol, c, (double) maxDepth));
             }
-            int max_new_coverage = new_coverages.stream().map(Set::size).max(Comparator.comparingInt(i -> i)).get();
-            if (max_new_coverage > 0) {
-                return new_coverages;
+            int maxNewCoverage = newCoverages.stream().map(Set::size).max(Comparator.comparingInt(i -> i)).get();
+            if (maxNewCoverage > 0) {
+                return newCoverages;
             }
         }
 
         return null;
     }
 
-    private Set<String> new_child_coverage(String symbol, List<DerivationTree> children, Double max_depth) {
-        Set<String> new_cov = new_child_coverage0(children, max_depth);
-        new_cov.add(expansion_key(symbol, children));
-        new_cov.removeAll(expansion_coverage());
-        return new_cov;
+    private Set<String> newChildCoverage(String symbol, List<DerivationTree> children, Double maxDepth) {
+        Set<String> newCov = newChildCoverage0(children, maxDepth);
+        newCov.add(expansionKey(symbol, children));
+        newCov.removeAll(expansionCoverage());
+        return newCov;
     }
 
-    private Set<String> new_child_coverage0(List<DerivationTree> children, Double max_depth) {
-        Set<String> new_cov = new HashSet<>();
+    private Set<String> newChildCoverage0(List<DerivationTree> children, Double maxDepth) {
+        Set<String> newCov = new HashSet<>();
         for (DerivationTree c : children) {
             String symbol = c.getSymbolName();
             if (grammar.containsKey(symbol)) {
-                new_cov.addAll(max_expansion_coverage(symbol, max_depth));
+                newCov.addAll(maxExpansionCoverage(symbol, maxDepth));
             }
         }
-        return new_cov;
+        return newCov;
     }
 
 

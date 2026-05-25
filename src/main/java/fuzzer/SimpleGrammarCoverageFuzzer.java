@@ -13,23 +13,23 @@ public class SimpleGrammarCoverageFuzzer extends TrackingGrammarCoverageFuzzer {
     @Override
     public int chooseNodeExpansion(DerivationTree node, List<List<DerivationTree>> childrenAlternatives) {
         String symbol = node.getSymbolName();
-        List<List<DerivationTree>> uncovered_children = childrenAlternatives.stream()
-                .filter(c -> !coveredExpansions.contains(expansion_key(symbol, c)))
+        List<List<DerivationTree>> uncoveredChildren = childrenAlternatives.stream()
+                .filter(c -> !coveredExpansions.contains(expansionKey(symbol, c)))
                 .collect(Collectors.toList());
 
         List<Integer> indexMap = new ArrayList<>();
         int i = 0;
-        for (List<DerivationTree> c : uncovered_children) {
-            if (uncovered_children.contains(c)) {
+        for (List<DerivationTree> c : uncoveredChildren) {
+            if (uncoveredChildren.contains(c)) {
                 indexMap.add(i);
             }
             i++;
         }
 
-        if (uncovered_children.isEmpty()) {
+        if (uncoveredChildren.isEmpty()) {
             return super.chooseNodeExpansion(node, childrenAlternatives);
         }
-        int index = super.chooseNodeExpansion(node, uncovered_children);
+        int index = super.chooseNodeExpansion(node, uncoveredChildren);
         return indexMap.get(index);
     }
 
