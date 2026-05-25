@@ -16,32 +16,14 @@ public class FuzzerConfig {
     private final int seed;
 
     public FuzzerConfig(
-            String grammarPath,
+            JSONObject grammar,
             int count,
             int maxExpansions,
             int seed) {
-        try {
-            this.grammar = read_grammar(grammarPath);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("The given grammar path is not valid");
-        }
+        this.grammar = grammar;
         this.count = count;
         this.maxExpansions = maxExpansions;
         this.seed = seed;
-    }
-
-    private JSONObject read_grammar(String grammar_file_name) throws IOException, ParseException {
-        BufferedReader reader = new BufferedReader(new FileReader(grammar_file_name));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line);
-        }
-        reader.close();
-
-        String content = stringBuilder.toString();
-        JSONParser parser = new JSONParser();
-        return (JSONObject) parser.parse(content);
     }
 
     public JSONObject getGrammar() {

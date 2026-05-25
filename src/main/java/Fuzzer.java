@@ -25,7 +25,7 @@ public class Fuzzer implements Runnable {
 
     @Override
     public void run() {
-        FuzzerConfig config = new FuzzerConfig(grammarPath, count, maxNumOfExpansions, seed);
+        FuzzerConfig config = new FuzzerConfig(Utils.readGrammar(grammarPath), count, maxNumOfExpansions, seed);
         GrammarBasedFuzzer fuzzer = FuzzerFactory.create(fuzzerType, config);
         for (String s : fuzzer.generate(count)) {
             System.out.println(s);
