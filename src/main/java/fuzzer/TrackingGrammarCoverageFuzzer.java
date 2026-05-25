@@ -1,7 +1,6 @@
 package fuzzer;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.util.HashSet;
 import java.util.List;
@@ -10,11 +9,11 @@ import java.util.Set;
 
 public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
 
-    protected Set<String> covered_expansions;
-    private Set<String> symbols_seen;
+    protected Set<String> coveredExpansions;
+    private Set<String> symbolsSeen;
 
-    public TrackingGrammarCoverageFuzzer(JSONObject grammar, int seed) {
-        super(grammar, seed);
+    public TrackingGrammarCoverageFuzzer(FuzzerConfig config) {
+        super(config);
     }
 
     @Override
@@ -29,14 +28,14 @@ public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
     }
 
     public void reset_coverage() {
-        covered_expansions = new HashSet<>();
+        coveredExpansions = new HashSet<>();
     }
 
     public Set<String> max_expansion_coverage(String symbol, Double max_depth) {
-        symbols_seen = new HashSet<>();
+        symbolsSeen = new HashSet<>();
         Set<String> cov = max_expansion_coverage0(symbol, max_depth);
         if (Objects.equals(symbol, INITIAL_SYMBOL)) {
-            assert symbols_seen.size() == grammar.size();
+            assert symbolsSeen.size() == grammar.size();
         }
         return cov;
     }
@@ -46,14 +45,14 @@ public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
             return new HashSet<>();
         }
 
-        symbols_seen.add(symbol);
+        symbolsSeen.add(symbol);
 
         Set<String> expansions = new HashSet<>();
         for (Object e : (JSONArray) grammar.get(symbol)) {
             String expansion = (String) e;
             expansions.add(expansion_key(symbol, expansion));
-            for (String non_terminal : nonterminals(expansion)) {
-                if (!symbols_seen.contains(non_terminal)) {
+            for (String non_terminal : nonTerminals(expansion)) {
+                if (!symbolsSeen.contains(non_terminal)) {
                     expansions.addAll(max_expansion_coverage0(non_terminal, max_depth-1));
                 }
             }
@@ -71,18 +70,18 @@ public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
     }
 
     @Override
-    public int choose_node_expansion(DerivationTree node, List<List<DerivationTree>> children_alternatives) {
-        int index = super.choose_node_expansion(node, children_alternatives);
-        add_coverage(node.get_symbol_name(), children_alternatives.get(index));
+    public int chooseNodeExpansion(DerivationTree node, List<List<DerivationTree>> childrenAlternatives) {
+        int index = super.chooseNodeExpansion(node, childrenAlternatives);
+        add_coverage(node.getSymbolName(), childrenAlternatives.get(index));
         return index;
     }
 
     public void add_coverage(String symbol, List<DerivationTree> new_child) {
-        covered_expansions.add(expansion_key(symbol, new_child));
+        coveredExpansions.add(expansion_key(symbol, new_child));
     }
 
     public Set<String> expansion_coverage() {
-        return covered_expansions;
+        return coveredExpansions;
     }
 
     public Set<String> missing_expansion_coverage() {

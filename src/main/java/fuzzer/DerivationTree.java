@@ -5,31 +5,31 @@ import java.util.stream.Collectors;
 
 public class DerivationTree {
 
-    private final String symbol_name;
+    private final String symbolName;
     private List<DerivationTree> children;
 
     public DerivationTree(String symbol_name, List<DerivationTree> children) {
-        this.symbol_name = symbol_name;
+        this.symbolName = symbol_name;
         this.children = children;
     }
 
-    public String get_symbol_name() {
-        return symbol_name;
+    public String getSymbolName() {
+        return symbolName;
     }
 
-    public List<DerivationTree> get_children() {
+    public List<DerivationTree> getChildren() {
         return children;
     }
 
     public String toString() {
         if (children != null) {
             if (children.isEmpty()) {
-                return symbol_name;
+                return symbolName;
             } else {
-                return children.stream().map(DerivationTree::toString).collect(Collectors.joining(" "));
+                return children.stream().map(DerivationTree::toString).collect(Collectors.joining(""));
             }
         } else {
-            return symbol_name;
+            return symbolName;
         }
     }
 

@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 import java.util.Set;
 
-public abstract class Fuzzer {
+public abstract class GrammarBasedFuzzer {
 
   protected JSONObject grammar;
 
