@@ -9,7 +9,7 @@
 ## How to use
 
 ```shell
-java -cp build/libs/grammar-based-fuzzer-1.0-SNAPSHOT-all.jar Fuzzer 
+java -cp build/libs/grammar-based-fuzzer-all.jar Fuzzer 
 ```
 
 ### Options:
@@ -24,5 +24,5 @@ java -cp build/libs/grammar-based-fuzzer-1.0-SNAPSHOT-all.jar Fuzzer
 ### Example
 
 ```shell
-java -cp build/libs/grammar-based-fuzzer-1.0-SNAPSHOT-all.jar Fuzzer -ft=COVERAGE -g=example/math_expr_grammar.json --max-num-of-expansions=100 -n=1000
+java -cp build/libs/grammar-based-fuzzer-all.jar Fuzzer -ft=COVERAGE -g=example/math_expr_grammar.json --max-num-of-expansions=100 -n=1000
 ```
