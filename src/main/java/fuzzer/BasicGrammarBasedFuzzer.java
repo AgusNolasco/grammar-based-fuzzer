@@ -16,7 +16,6 @@ public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
 
   private static final int MAX_NONTERMINALS = 6;
   private static final int MAX_EXPANSION_TRIALS = 100;
-  protected final String INITIAL_SYMBOL = "<S>";
   private static final String RE_NONTERMINAL = "(<[^<> ]*>)";
 
   protected Random rand;
