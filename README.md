@@ -20,3 +20,9 @@ java -cp build/libs/grammar-based-fuzzer-1.0-SNAPSHOT-all.jar Fuzzer
 * `-n=<count of outputs>`
 * `--max-num-of-expansions=<maximum number of expansions>`
 * `--seed=<seed>`
+
+### Example
+
+```shell
+java -cp build/libs/grammar-based-fuzzer-1.0-SNAPSHOT-all.jar Fuzzer -ft=COVERAGE -g=example/math_expr_grammar.json --max-num-of-expansions=100 -n=1000
+```
