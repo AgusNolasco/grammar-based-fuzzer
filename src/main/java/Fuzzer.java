@@ -5,8 +5,6 @@ import fuzzer.GrammarBasedFuzzer;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
-import java.util.Set;
-
 @CommandLine.Command(name = "fuzzer")
 public class Fuzzer implements Runnable {
 
@@ -17,7 +15,7 @@ public class Fuzzer implements Runnable {
     private FuzzerType fuzzerType = FuzzerType.BASIC;
 
     @Option(names = "-n")
-    private int mrsToFuzz = 1;
+    private int count = 1;
 
     @Option(names = "--max-num-of-expansions")
     private int maxNumOfExpansions = Integer.MAX_VALUE;
@@ -27,9 +25,9 @@ public class Fuzzer implements Runnable {
 
     @Override
     public void run() {
-        FuzzerConfig config = new FuzzerConfig(grammarPath, mrsToFuzz, maxNumOfExpansions, seed);
+        FuzzerConfig config = new FuzzerConfig(grammarPath, count, maxNumOfExpansions, seed);
         GrammarBasedFuzzer fuzzer = FuzzerFactory.create(fuzzerType, config);
-        for (String s : fuzzer.generate(mrsToFuzz)) {
+        for (String s : fuzzer.generate(count)) {
             System.out.println(s);
         }
     }
