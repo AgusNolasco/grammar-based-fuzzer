@@ -2,7 +2,7 @@ package fuzzer;
 
 import org.json.simple.JSONObject;
 
-import java.util.Set;
+import java.util.List;
 
 public abstract class GrammarBasedFuzzer {
 
@@ -22,5 +22,5 @@ public abstract class GrammarBasedFuzzer {
   /**
    * Returns a list of fuzzed expressions from the grammar
    */
-  public abstract Set<String> generate(int n);
+  public abstract List<String> generate(int n);
 }

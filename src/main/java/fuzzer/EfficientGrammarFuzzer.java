@@ -104,7 +104,6 @@ public class EfficientGrammarFuzzer extends BasicGrammarBasedFuzzer {
         assert children == null;
 
         JSONArray expansions = (JSONArray) grammar.get(symbol);
-
         List<List<DerivationTree>> childrenAlternatives = new ArrayList<>();
         List<Double> costs = new ArrayList<>();
         for (Object e : expansions) {

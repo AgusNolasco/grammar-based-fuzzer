@@ -48,9 +48,9 @@ public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
   /**
    * Fuzz the grammar the given number of times
    */
-  public Set<String> generate(int n) {
+  public List<String> generate(int n) {
     if (n <= 0) throw new IllegalArgumentException("The amount of expressions to fuzz must be a positive number");
-    Set<String> fuzzed = new HashSet<>();
+    List<String> fuzzed = new ArrayList<>();
     for (int i = 0; i < n; i++) {
       fuzzed.add(generate());
     }
