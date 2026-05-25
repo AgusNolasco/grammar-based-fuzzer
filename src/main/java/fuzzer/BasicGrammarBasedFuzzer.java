@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
+public class BasicGrammarBasedFuzzer extends Fuzzer {
 
   private static final int MAX_NONTERMINALS = 6;
   private static final int MAX_EXPANSION_TRIALS = 100;
@@ -42,7 +42,7 @@ public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
   /**
    * Fuzz the grammar and returns a valid expression
    */
-  public String fuzz() {
+  public String generate() {
     String term = INITIAL_SYMBOL;
     int expansion_trials = 0;
     List<String> non_terminals = nonterminals(term);
@@ -68,11 +68,11 @@ public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
   /**
    * Fuzz the grammar the given number of times
    */
-  public Set<String> fuzz(int n) {
+  public Set<String> generate(int n) {
     if (n <= 0) throw new IllegalArgumentException("The amount of expressions to fuzz must be a positive number");
     Set<String> fuzzed = new HashSet<>();
     for (int i = 0; i < n; i++) {
-      fuzzed.add(fuzz());
+      fuzzed.add(generate());
     }
     return fuzzed;
   }
@@ -114,7 +114,7 @@ public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
     }
     String grammar_file = args[0];
     BasicGrammarBasedFuzzer bf = new BasicGrammarBasedFuzzer(grammar_file);
-    System.out.println(bf.fuzz());
+    System.out.println(bf.generate());
   }
 
 }

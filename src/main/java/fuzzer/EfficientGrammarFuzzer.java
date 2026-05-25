@@ -23,7 +23,7 @@ public class EfficientGrammarFuzzer extends BasicGrammarBasedFuzzer {
     }
 
     @Override
-    public String fuzz() {
+    public String generate() {
         DerivationTree tree = init_tree();
         expansionsCount = 0;
         tree = expand_tree(tree);

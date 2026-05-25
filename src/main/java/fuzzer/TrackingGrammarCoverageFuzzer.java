@@ -18,9 +18,9 @@ public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
     }
 
     @Override
-    public Set<String> fuzz(int n) {
+    public Set<String> generate(int n) {
         reset_coverage();
-        Set<String> fuzzed_terms = super.fuzz(n);
+        Set<String> fuzzed_terms = super.generate(n);
 
         System.out.println("Covered expansions: " + expansion_coverage().size());
         System.out.println("Uncovered expansions: " + missing_expansion_coverage().size());
