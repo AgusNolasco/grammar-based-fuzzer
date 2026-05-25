@@ -22,13 +22,14 @@ public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
   /**
    * Fuzz the grammar and returns a valid expression
    */
+  @SuppressWarnings("unchecked")
   public String generate() {
     String term = INITIAL_SYMBOL;
     int expansion_trials = 0;
     List<String> non_terminals = nonTerminals(term);
     while (!non_terminals.isEmpty()) {
       String symbol_to_expand = non_terminals.get(rand.nextInt(non_terminals.size()));
-      JSONArray expansions = (JSONArray) grammar.get(symbol_to_expand);
+      List<Object> expansions = (List<Object>) grammar.get(symbol_to_expand);
       String expansion = (String) expansions.get(rand.nextInt(expansions.size()));
       String new_term = term.replaceFirst(symbol_to_expand, expansion);
       non_terminals = nonTerminals(new_term);

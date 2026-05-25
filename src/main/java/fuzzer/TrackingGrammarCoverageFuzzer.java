@@ -40,6 +40,7 @@ public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
         return cov;
     }
 
+    @SuppressWarnings("unchecked")
     private Set<String> maxExpansionCoverage0(String symbol, Double maxDepth) {
         if (maxDepth <= 0) {
             return new HashSet<>();
@@ -48,7 +49,7 @@ public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
         symbolsSeen.add(symbol);
 
         Set<String> expansions = new HashSet<>();
-        for (Object e : (JSONArray) grammar.get(symbol)) {
+        for (Object e : (List<Object>) grammar.get(symbol)) {
             String expansion = (String) e;
             expansions.add(expansionKey(symbol, expansion));
             for (String nonTerminal : nonTerminals(expansion)) {

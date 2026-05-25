@@ -80,12 +80,13 @@ public class EfficientGrammarFuzzer extends BasicGrammarBasedFuzzer {
         return expandNodeByCost(node, BinaryOperator::maxBy);
     }
 
+    @SuppressWarnings("unchecked")
     private DerivationTree expandNodeRandomly(DerivationTree node) {
         String symbol = node.getSymbolName();
         List<DerivationTree> children = node.getChildren();
         assert children == null;
 
-        JSONArray expansions = (JSONArray) grammar.get(symbol);
+        List<Object> expansions = (List<Object>) grammar.get(symbol);
         List<List<DerivationTree>> childrenAlternatives = new ArrayList<>();
         for (Object expansion : expansions) {
             childrenAlternatives.add(expansionToChildren((String) expansion));
@@ -98,12 +99,13 @@ public class EfficientGrammarFuzzer extends BasicGrammarBasedFuzzer {
         return new DerivationTree(symbol, chosenChildren);
     }
 
+    @SuppressWarnings("unchecked")
     public DerivationTree expandNodeByCost(DerivationTree node, Function<Comparator<Double>, BinaryOperator<Double>> choose) {
         String symbol = node.getSymbolName();
         List<DerivationTree> children = node.getChildren();
         assert children == null;
 
-        JSONArray expansions = (JSONArray) grammar.get(symbol);
+        List<Object> expansions = (List<Object>) grammar.get(symbol);
         List<List<DerivationTree>> childrenAlternatives = new ArrayList<>();
         List<Double> costs = new ArrayList<>();
         for (Object e : expansions) {
@@ -186,8 +188,9 @@ public class EfficientGrammarFuzzer extends BasicGrammarBasedFuzzer {
         return children.stream().anyMatch(this::anyPossibleExpansion);
     }
 
+    @SuppressWarnings("unchecked")
     private double symbolCost(String symbol, Set<String> seen) {
-        JSONArray expansions = (JSONArray) grammar.get(symbol);
+        List<Object> expansions = (List<Object>) grammar.get(symbol);
         Set<String> newSeen = new HashSet<>(seen);
         newSeen.add(symbol);
         double min = Double.MAX_VALUE;
