@@ -1,4 +1,4 @@
-# GRAMMAR-BASED FUZZER
+# Grammar-based Fuzzer
 
 ## Build
 
