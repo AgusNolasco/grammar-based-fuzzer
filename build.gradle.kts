@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    application
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -7,6 +8,10 @@ group = "org.example"
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass.set("Fuzzer")
 }
 
 dependencies {
