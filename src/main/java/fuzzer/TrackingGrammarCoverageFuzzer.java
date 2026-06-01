@@ -21,8 +21,10 @@ public class TrackingGrammarCoverageFuzzer extends EfficientGrammarFuzzer {
         resetCoverage();
         List<String> fuzzedTerms = super.generate(n);
 
-        System.out.println("Covered expansions: " + expansionCoverage().size());
-        System.out.println("Uncovered expansions: " + missingExpansionCoverage().size());
+        if (verbose) {
+            System.out.println("Covered expansions: " + expansionCoverage().size());
+            System.out.println("Uncovered expansions: " + missingExpansionCoverage().size());
+        }
 
         return fuzzedTerms;
     }

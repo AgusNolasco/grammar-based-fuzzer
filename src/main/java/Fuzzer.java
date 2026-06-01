@@ -23,9 +23,12 @@ public class Fuzzer implements Runnable {
     @Option(names = "--seed")
     private int seed = 0;
 
+    @Option(names = {"--verbose", "-v"})
+    private boolean verbose = false;
+
     @Override
     public void run() {
-        FuzzerConfig config = new FuzzerConfig(Utils.readGrammar(grammarPath), count, maxNumOfExpansions, seed);
+        FuzzerConfig config = new FuzzerConfig(Utils.readGrammar(grammarPath), count, maxNumOfExpansions, seed, verbose);
         GrammarBasedFuzzer fuzzer = FuzzerFactory.create(fuzzerType, config);
         for (String s : fuzzer.generate(count)) {
             System.out.println(s);

@@ -17,6 +17,7 @@ public class BasicGrammarBasedFuzzer extends GrammarBasedFuzzer {
     public BasicGrammarBasedFuzzer(FuzzerConfig config) {
         grammar = config.getGrammar();
         rand = new Random(config.getSeed());
+        verbose = config.isVerbose();
     }
 
     /**

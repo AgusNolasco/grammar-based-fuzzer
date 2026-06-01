@@ -10,6 +10,8 @@ public abstract class GrammarBasedFuzzer {
 
     protected String INITIAL_SYMBOL = "<S>";
 
+    protected boolean verbose;
+
     public void setInitialSymbol(String initialSymbol) {
         INITIAL_SYMBOL = initialSymbol;
     }

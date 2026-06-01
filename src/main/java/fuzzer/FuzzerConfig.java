@@ -15,15 +15,27 @@ public class FuzzerConfig {
     private final int maxExpansions;
     private final int seed;
 
+    private final boolean verbose;
+
     public FuzzerConfig(
             JSONObject grammar,
             int count,
             int maxExpansions,
             int seed) {
+        this(grammar, count, maxExpansions, seed, false);
+    }
+
+    public FuzzerConfig(
+            JSONObject grammar,
+            int count,
+            int maxExpansions,
+            int seed,
+            boolean verbose) {
         this.grammar = grammar;
         this.count = count;
         this.maxExpansions = maxExpansions;
         this.seed = seed;
+        this.verbose = verbose;
     }
 
     public JSONObject getGrammar() {
@@ -40,5 +52,9 @@ public class FuzzerConfig {
 
     public int getSeed() {
         return seed;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
     }
 }
