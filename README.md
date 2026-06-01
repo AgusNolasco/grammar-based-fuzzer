@@ -20,6 +20,8 @@ java -jar build/libs/grammar-based-fuzzer-all.jar
 * `-n=<count of outputs>`
 * `--max-num-of-expansions=<maximum number of expansions>`
 * `--seed=<seed>`
+* `--verbose`
+* `-v`
 
 ### Example
 
